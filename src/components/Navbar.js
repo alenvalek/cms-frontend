@@ -4,9 +4,9 @@ import BackupTableIcon from "@mui/icons-material/BackupTable";
 
 // redux
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
+import { logout } from "../actions/auth";
 
-const Navbar = ({ auth: { isAuth, loading } }) => {
+const Navbar = ({ auth: { isAuth, loading }, logout }) => {
 	return (
 		<>
 			{!loading && (
@@ -29,7 +29,9 @@ const Navbar = ({ auth: { isAuth, loading } }) => {
 								CMS
 							</Typography>
 							{isAuth ? (
-								<Button color='inherit'>Odjava</Button>
+								<Button color='inherit' onClick={logout}>
+									Odjava
+								</Button>
 							) : (
 								<Button color='inherit'>Prijava</Button>
 							)}
@@ -45,4 +47,4 @@ const mapStateToProps = (state) => ({
 	auth: state.auth,
 });
 
-export default connect(mapStateToProps, {})(Navbar);
+export default connect(mapStateToProps, { logout })(Navbar);

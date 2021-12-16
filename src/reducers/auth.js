@@ -36,7 +36,7 @@ export default function (state = initialState, action) {
 			return {
 				...state,
 				token: null,
-				isAuth: null,
+				isAuth: false,
 				loading: false,
 			};
 		case USER_LOADED:

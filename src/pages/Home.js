@@ -14,7 +14,7 @@ const Home = ({ user, loading }) => {
 						<strong>User id:</strong> {user.user._id}!
 					</Typography>
 					<Typography style={{ margin: "0 2rem" }} variant='h5'>
-						<strong>Email:</strong> {user.user.username}!
+						<strong>Email:</strong> {user.user.email}
 					</Typography>
 					<Typography style={{ margin: "0 2rem" }} variant='h5'>
 						<strong>Role:</strong> {user.role}
