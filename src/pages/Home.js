@@ -1,30 +1,50 @@
-import { Typography } from "@mui/material";
-import { Fragment } from "react";
+import { Button, Grid, Typography } from "@mui/material";
+import { useState } from "react";
 import { connect } from "react-redux";
+import Hotel from "../components/Hotel";
 
 const Home = ({ user, loading }) => {
+	const [array, setArray] = useState([
+		{
+			id: 1,
+			name: "Testni hotelski lanac 1",
+		},
+		{
+			id: 2,
+			name: "Testni hotelski lanac 2",
+		},
+		{
+			id: 3,
+			name: "Testni hotelski lanac 3",
+		},
+		{
+			id: 4,
+			name: "Testni hotelski lanac 4",
+		},
+	]);
+
 	return (
 		<>
-			{user && !loading && (
-				<Fragment>
-					<Typography style={{ margin: "2rem" }} variant='h4'>
-						Welcome back, {user.user.username}!
-					</Typography>
-					<Typography style={{ margin: "0 2rem" }} variant='h5'>
-						<strong>User id:</strong> {user.user._id}!
-					</Typography>
-					<Typography style={{ margin: "0 2rem" }} variant='h5'>
-						<strong>Email:</strong> {user.user.email}
-					</Typography>
-					<Typography style={{ margin: "0 2rem" }} variant='h5'>
-						<strong>Role:</strong> {user.role}
-					</Typography>
-					<Typography style={{ margin: "0 2rem" }} variant='h5'>
-						<strong>Account creation date:</strong>{" "}
-						{new Date(user.user.createdAt).toDateString()}
-					</Typography>
-				</Fragment>
-			)}
+			<Grid
+				container
+				textAlign='center'
+				alignItems='center'
+				justifyContent='center'
+				spacing={2}>
+				<Grid item sm={12} md={6}>
+					<Typography variant='h2'>Hotelski lanci</Typography>
+				</Grid>
+				<Grid item xs={12} sm={12} md={6} marginLeft='auto'>
+					<Button variant='contained' color='primary'>
+						Dodaj novi hotelski lanac
+					</Button>
+				</Grid>
+				{array.map((hotel) => (
+					<Grid item sm={12} md={3}>
+						<Hotel key={hotel.id} name={hotel.name} />
+					</Grid>
+				))}
+			</Grid>
 		</>
 	);
 };

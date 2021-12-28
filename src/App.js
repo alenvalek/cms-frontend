@@ -4,15 +4,20 @@ import PrivateRoute from "./components/PrivateRoute";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Navbar from "./components/Navbar";
-import store from "./store";
 import { useEffect } from "react";
 import { loadUser } from "./actions/auth";
+import { connect, useDispatch } from "react-redux";
 
-function App() {
+import Drawer from "./components/Drawer";
+
+function App({ isAuth, loading }) {
+	const dispatch = useDispatch();
+
 	useEffect(() => {
-		store.dispatch(loadUser());
+		dispatch(loadUser());
 	}, []);
-	return (
+
+	const notLoggedView = (
 		<>
 			<Navbar />
 			<Routes>
@@ -23,6 +28,27 @@ function App() {
 			</Routes>
 		</>
 	);
+
+	const loggedInView = (
+		<>
+			<Navbar />
+			<Drawer>
+				<Routes>
+					<Route exact path='/' element={<PrivateRoute redirectTo='/login' />}>
+						<Route path='/' element={<Home />} />
+					</Route>
+					<Route path='/login' element={<Login />} />
+				</Routes>
+			</Drawer>
+		</>
+	);
+
+	return <>{!isAuth && !loading ? notLoggedView : loggedInView}</>;
 }
 
-export default App;
+const mapStateToProps = (state) => ({
+	isAuth: state.auth.isAuth,
+	loading: state.auth.loading,
+});
+
+export default connect(mapStateToProps, { loadUser })(App);
