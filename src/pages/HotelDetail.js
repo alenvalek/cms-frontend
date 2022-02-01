@@ -3,25 +3,26 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
-const CampDetail = () => {
-	const { kampID } = useParams();
+const HotelDetail = () => {
+	const { hotelID } = useParams();
 	const [loading, setLoading] = useState(true);
-	const [campDetails, setCampDetails] = useState({});
+	const [hotelDetails, setHotelDetails] = useState({});
 
 	useEffect(() => {
-		const getCampDetails = async () => {
-			const res = await axios.get(`/api/camps/${kampID}`);
-			setCampDetails(res.data);
+		const getHotelDetails = async () => {
+			const res = await axios.get(`/api/hotels/${hotelID}`);
+			setHotelDetails(res.data);
 			setLoading(false);
 		};
-		getCampDetails();
+		getHotelDetails();
 	}, []);
 	const navigateToCreateForm = () => {
 		console.log("brr");
 	};
+
 	return (
 		<>
-			{!loading && campDetails && (
+			{!loading && hotelDetails && (
 				<Grid
 					container
 					textAlign='center'
@@ -29,21 +30,21 @@ const CampDetail = () => {
 					justifyContent='center'
 					spacing={2}>
 					<Grid item sm={12} md={6}>
-						<Typography variant='h2'>{campDetails.name}</Typography>
+						<Typography variant='h2'>{hotelDetails.name}</Typography>
 					</Grid>
 					<Grid item xs={12} sm={12} md={6} marginLeft='auto'>
 						<Button
 							variant='contained'
 							color='primary'
 							onClick={navigateToCreateForm}>
-							Dodaj novi objekt
+							Dodaj novi kamp
 						</Button>
 					</Grid>
-					<Grid>{kampID}</Grid>
+					<Grid>{hotelID}</Grid>
 				</Grid>
 			)}
 		</>
 	);
 };
 
-export default CampDetail;
+export default HotelDetail;

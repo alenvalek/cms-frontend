@@ -26,7 +26,7 @@ import { connect, useDispatch } from "react-redux";
 import { logout } from "../actions/auth";
 
 // routing
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 const drawerWidth = 240;
 
@@ -56,38 +56,54 @@ function ResponsiveDrawer({ window, children, user, loading }) {
 			</List>
 			<Divider />
 			<List>
-				<Link to='/'>
+				<NavLink
+					to='/'
+					style={({ isActive }) => ({
+						color: isActive ? "#1976d2" : "black",
+					})}>
 					<ListItem button>
 						<ListItemIcon>
 							<DashboardIcon />
 						</ListItemIcon>
 						<ListItemText primary='Dashboard' />
 					</ListItem>
-				</Link>
-				<Link to='/hoteli'>
+				</NavLink>
+				<NavLink
+					to='/hoteli'
+					style={({ isActive }) => ({
+						color: isActive ? "#1976d2" : "black",
+					})}>
 					<ListItem button>
 						<ListItemIcon>
 							<ApartmentIcon />
 						</ListItemIcon>
 						<ListItemText primary='Moji hotelski lanci' />
 					</ListItem>
-				</Link>
-				<Link to='/kampovi'>
+				</NavLink>
+				<NavLink
+					to='/kampovi'
+					style={({ isActive }) => ({
+						color: isActive ? "#1976d2" : "black",
+					})}>
 					<ListItem button>
 						<ListItemIcon>
 							<HolidayVillageIcon />
 						</ListItemIcon>
 						<ListItemText primary='Moji kampovi' />
 					</ListItem>
-				</Link>
-				<Link to='/objekti'>
+				</NavLink>
+				<NavLink
+					to='/objekti'
+					style={({ isActive }) => ({
+						color: isActive ? "#1976d2" : "black",
+					})}>
 					<ListItem button>
 						<ListItemIcon>
 							<WbShadeIcon />
 						</ListItemIcon>
 						<ListItemText primary='Moji objekti' />
 					</ListItem>
-				</Link>
+				</NavLink>
 			</List>
 		</div>
 	);
