@@ -1,57 +1,35 @@
-import { Button, Grid, Typography } from "@mui/material";
-import { useState } from "react";
-import { connect } from "react-redux";
-import Hotel from "../components/Hotel";
+import "../App.css";
+import {
+	ComposableMap,
+	Geographies,
+	Geography,
+	ZoomableGroup,
+} from "react-simple-maps";
+import { Grid, Typography } from "@mui/material";
 
-const Home = ({ user, loading }) => {
-	const [array, setArray] = useState([
-		{
-			id: 1,
-			name: "Testni hotelski lanac 1",
-		},
-		{
-			id: 2,
-			name: "Testni hotelski lanac 2",
-		},
-		{
-			id: 3,
-			name: "Testni hotelski lanac 3",
-		},
-		{
-			id: 4,
-			name: "Testni hotelski lanac 4",
-		},
-	]);
+const geoUrl =
+	"https://raw.githubusercontent.com/zcreativelabs/react-simple-maps/master/topojson-maps/world-110m.json";
 
+const Home = () => {
 	return (
-		<>
-			<Grid
-				container
-				textAlign='center'
-				alignItems='center'
-				justifyContent='center'
-				spacing={2}>
-				<Grid item sm={12} md={6}>
-					<Typography variant='h2'>Hotelski lanci</Typography>
-				</Grid>
-				<Grid item xs={12} sm={12} md={6} marginLeft='auto'>
-					<Button variant='contained' color='primary'>
-						Dodaj novi hotelski lanac
-					</Button>
-				</Grid>
-				{array.map((hotel) => (
-					<Grid item sm={12} md={3}>
-						<Hotel key={hotel.id} name={hotel.name} />
-					</Grid>
-				))}
-			</Grid>
-		</>
+		<Grid container flexDirection='column' alignItems='center' spacing={2}>
+			<Typography variant='h3'>Dashboard</Typography>
+			<Typography variant='h5'>Broj objekata: 5</Typography>
+			<div>
+				<ComposableMap className='mapFrame'>
+					<ZoomableGroup zoom={1}>
+						<Geographies geography={geoUrl}>
+							{({ geographies }) =>
+								geographies.map((geo) => (
+									<Geography key={geo.rsmKey} geography={geo} />
+								))
+							}
+						</Geographies>
+					</ZoomableGroup>
+				</ComposableMap>
+			</div>
+		</Grid>
 	);
 };
 
-const mapStateToProps = (state) => ({
-	user: state.auth.user,
-	loading: state.auth.loading,
-});
-
-export default connect(mapStateToProps, {})(Home);
+export default Home;

@@ -18,10 +18,15 @@ import IconButton from "@mui/material/IconButton";
 import ApartmentIcon from "@mui/icons-material/Apartment";
 import HolidayVillageIcon from "@mui/icons-material/HolidayVillage";
 import BackupTableIcon from "@mui/icons-material/BackupTable";
+import WbShadeIcon from "@mui/icons-material/WbShade";
+import DashboardIcon from "@mui/icons-material/Dashboard";
 
 // redux
 import { connect, useDispatch } from "react-redux";
 import { logout } from "../actions/auth";
+
+// routing
+import { Link } from "react-router-dom";
 
 const drawerWidth = 240;
 
@@ -51,24 +56,38 @@ function ResponsiveDrawer({ window, children, user, loading }) {
 			</List>
 			<Divider />
 			<List>
-				<ListItem button>
-					<ListItemIcon>
-						<ApartmentIcon />
-					</ListItemIcon>
-					<ListItemText primary='Moji hotelski lanci' />
-				</ListItem>
-				<ListItem button>
-					<ListItemIcon>
-						<HolidayVillageIcon />
-					</ListItemIcon>
-					<ListItemText primary='Moji kampovi' />
-				</ListItem>
-				<ListItem button>
-					<ListItemIcon>
-						<HolidayVillageIcon />
-					</ListItemIcon>
-					<ListItemText primary='Moji objekti' />
-				</ListItem>
+				<Link to='/'>
+					<ListItem button>
+						<ListItemIcon>
+							<DashboardIcon />
+						</ListItemIcon>
+						<ListItemText primary='Dashboard' />
+					</ListItem>
+				</Link>
+				<Link to='/hoteli'>
+					<ListItem button>
+						<ListItemIcon>
+							<ApartmentIcon />
+						</ListItemIcon>
+						<ListItemText primary='Moji hotelski lanci' />
+					</ListItem>
+				</Link>
+				<Link to='/kampovi'>
+					<ListItem button>
+						<ListItemIcon>
+							<HolidayVillageIcon />
+						</ListItemIcon>
+						<ListItemText primary='Moji kampovi' />
+					</ListItem>
+				</Link>
+				<Link to='/objekti'>
+					<ListItem button>
+						<ListItemIcon>
+							<WbShadeIcon />
+						</ListItemIcon>
+						<ListItemText primary='Moji objekti' />
+					</ListItem>
+				</Link>
 			</List>
 		</div>
 	);

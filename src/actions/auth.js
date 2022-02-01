@@ -50,7 +50,7 @@ export const loginUser = (email, password) => async (dispatch) => {
 		dispatch(loadUser());
 	} catch (error) {
 		if (error) {
-			dispatch(setAlert(error.msg, "danger", 5000));
+			dispatch(setAlert(error.response.data.error, "danger", 5000));
 		}
 		dispatch({ type: LOGIN_FAIL });
 	}

@@ -9,8 +9,12 @@ import { loadUser } from "./actions/auth";
 import { connect, useDispatch } from "react-redux";
 
 import Drawer from "./components/Drawer";
+import Camps from "./pages/Camps";
+import Objects from "./pages/Objects";
+import CampDetail from "./pages/CampDetail";
+import Hotels from "./pages/Hotels";
 
-function App({ isAuth, loading }) {
+function App({ isAuth, loading, user }) {
 	const dispatch = useDispatch();
 
 	useEffect(() => {
@@ -35,7 +39,12 @@ function App({ isAuth, loading }) {
 			<Drawer>
 				<Routes>
 					<Route exact path='/' element={<PrivateRoute redirectTo='/login' />}>
-						<Route path='/' element={<Home />} />
+						<Route exact path='/' element={<Home />} />
+						<Route exact path='/hoteli' element={<Hotels />} />
+						<Route path='/kampovi' element={<Camps />} />
+						<Route path='/kampovi/:kampID' element={<CampDetail />} />
+						<Route path='/hoteli/:hotelID' element={<CampDetail />} />
+						<Route path='/objekti' element={<Objects />} />
 					</Route>
 					<Route path='/login' element={<Login />} />
 				</Routes>
