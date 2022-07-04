@@ -5,6 +5,7 @@ import BackupTableIcon from "@mui/icons-material/BackupTable";
 // redux
 import { connect } from "react-redux";
 import { logout } from "../actions/auth";
+import { Link } from "react-router-dom";
 
 const Navbar = ({ auth: { isAuth, loading }, logout }) => {
 	return (
@@ -33,7 +34,9 @@ const Navbar = ({ auth: { isAuth, loading }, logout }) => {
 									Odjava
 								</Button>
 							) : (
-								<Button color='inherit'>Prijava</Button>
+								<Link color='inherit' to='/login'>
+									Prijava
+								</Link>
 							)}
 						</Toolbar>
 					</AppBar>

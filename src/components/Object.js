@@ -6,7 +6,7 @@ const useStyles = makeStyles({
 	root: {
 		transition: "all ease-in 500ms",
 		"&:hover": {
-			backgroundColor: "#35793b",
+			backgroundColor: "#1976d2",
 			color: "white",
 			cursor: "pointer",
 		},

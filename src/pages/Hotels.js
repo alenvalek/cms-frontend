@@ -11,12 +11,13 @@ import {
 import { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import Hotel from "../components/Hotel";
-import Camp from "../components/Camp";
+
 import { useNavigate } from "react-router-dom";
 
 const Hotels = ({ user, loading }) => {
 	const [modalVisible, setModalVisible] = useState(false);
 	const [newHotelName, setNewHotelName] = useState("");
+	const [hotels, setHotels] = useState([]);
 
 	const navigate = useNavigate();
 
@@ -34,22 +35,8 @@ const Hotels = ({ user, loading }) => {
 		navigate(`/hoteli/${id}`);
 	};
 
-	const fetchHotels = (e) => {
-		let newArr = [];
-		const userData = user.user;
-		console.log(userData);
-		if (userData) {
-			userData.permissions.forEach((permission) => {
-				if (permission.accessModel == "hotel") {
-					newArr.push({
-						type: permission.accessModel,
-						name: permission.access.name,
-						id: permission.access._id,
-					});
-				}
-			});
-		}
-		setObjArray(newArr);
+	const fetchHotels = () => {
+		setHotels(user.userWorkspaces.hotels);
 	};
 
 	useEffect(() => {
@@ -57,8 +44,6 @@ const Hotels = ({ user, loading }) => {
 			fetchHotels();
 		}
 	}, [user]);
-
-	const [objArray, setObjArray] = useState([]);
 
 	return (
 		<>
@@ -101,15 +86,15 @@ const Hotels = ({ user, loading }) => {
 							</DialogActions>
 						</Dialog>
 					</Grid>
-					{objArray.length > 0 &&
-						objArray.map((hotel) => {
+					{hotels.length > 0 &&
+						hotels.map((hotel) => {
 							return (
 								<Grid
-									key={hotel.id}
+									key={hotel._id}
 									item
 									sm={12}
 									md={3}
-									onClick={(e) => openHotel(hotel.id)}>
+									onClick={(e) => openHotel(hotel._id)}>
 									<Hotel name={hotel.name} />
 								</Grid>
 							);

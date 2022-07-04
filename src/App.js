@@ -9,12 +9,10 @@ import { loadUser } from "./actions/auth";
 import { connect, useDispatch } from "react-redux";
 
 import Drawer from "./components/Drawer";
-import Camps from "./pages/Camps";
-import Objects from "./pages/Objects";
 import CampDetail from "./pages/CampDetail";
 import Hotels from "./pages/Hotels";
-import { Geographies } from "react-simple-maps";
 import HotelDetail from "./pages/HotelDetail";
+import ObjectDetails from "./pages/ObjectDetails";
 
 function App({ isAuth, loading, user }) {
 	const dispatch = useDispatch();
@@ -44,9 +42,11 @@ function App({ isAuth, loading, user }) {
 						<Route exact path='/' element={<Home />} />
 						<Route exact path='/hoteli' element={<Hotels />} />
 						<Route path='/hoteli/:hotelID' element={<HotelDetail />} />
-						<Route path='/kampovi' element={<Camps />} />
-						<Route path='/kampovi/:kampID' element={<CampDetail />} />
-						<Route path='/objekti' element={<Objects />} />
+						<Route path='/hoteli/:hotelID/:kampID' element={<CampDetail />} />
+						<Route
+							path='/hoteli/:hotelID/:kampID/:objektID'
+							element={<ObjectDetails />}
+						/>
 					</Route>
 					<Route path='/login' element={<Login />} />
 				</Routes>

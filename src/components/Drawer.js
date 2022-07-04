@@ -16,11 +16,8 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import MenuIcon from "@mui/icons-material/Menu";
 import IconButton from "@mui/material/IconButton";
 import ApartmentIcon from "@mui/icons-material/Apartment";
-import HolidayVillageIcon from "@mui/icons-material/HolidayVillage";
 import BackupTableIcon from "@mui/icons-material/BackupTable";
-import WbShadeIcon from "@mui/icons-material/WbShade";
 import DashboardIcon from "@mui/icons-material/Dashboard";
-
 // redux
 import { connect, useDispatch } from "react-redux";
 import { logout } from "../actions/auth";
@@ -78,30 +75,6 @@ function ResponsiveDrawer({ window, children, user, loading }) {
 							<ApartmentIcon />
 						</ListItemIcon>
 						<ListItemText primary='Moji hotelski lanci' />
-					</ListItem>
-				</NavLink>
-				<NavLink
-					to='/kampovi'
-					style={({ isActive }) => ({
-						color: isActive ? "#1976d2" : "black",
-					})}>
-					<ListItem button>
-						<ListItemIcon>
-							<HolidayVillageIcon />
-						</ListItemIcon>
-						<ListItemText primary='Moji kampovi' />
-					</ListItem>
-				</NavLink>
-				<NavLink
-					to='/objekti'
-					style={({ isActive }) => ({
-						color: isActive ? "#1976d2" : "black",
-					})}>
-					<ListItem button>
-						<ListItemIcon>
-							<WbShadeIcon />
-						</ListItemIcon>
-						<ListItemText primary='Moji objekti' />
 					</ListItem>
 				</NavLink>
 			</List>

@@ -2,11 +2,21 @@ import { Button, Grid, Typography } from "@mui/material";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import Camp from "../components/Camp";
+import { connect } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
-const HotelDetail = () => {
+const HotelDetail = ({ user }) => {
 	const { hotelID } = useParams();
 	const [loading, setLoading] = useState(true);
+	const [camps, setCamps] = useState([]);
 	const [hotelDetails, setHotelDetails] = useState({});
+
+	const navigate = useNavigate();
+
+	const openCamp = (campID) => {
+		navigate(`/hoteli/${hotelID}/${campID}`);
+	};
 
 	useEffect(() => {
 		const getHotelDetails = async () => {
@@ -17,8 +27,21 @@ const HotelDetail = () => {
 		getHotelDetails();
 	}, []);
 	const navigateToCreateForm = () => {
-		console.log("brr");
+		console.log(user);
 	};
+
+	const fetchCamps = () => {
+		let hotelCamps = user.userWorkspaces.camps.filter(
+			(camp) => camp.hotel == hotelID
+		);
+		setCamps(hotelCamps);
+	};
+
+	useEffect(() => {
+		if (user) {
+			fetchCamps();
+		}
+	}, [user]);
 
 	return (
 		<>
@@ -40,11 +63,30 @@ const HotelDetail = () => {
 							Dodaj novi kamp
 						</Button>
 					</Grid>
-					<Grid>{hotelID}</Grid>
+					<Grid item md={12}>
+						{hotelID}
+					</Grid>
+					{camps.length > 0 &&
+						camps.map((camp) => {
+							return (
+								<Grid
+									key={camp._id}
+									item
+									sm={12}
+									md={3}
+									onClick={(e) => openCamp(camp._id)}>
+									<Camp name={camp.name} />
+								</Grid>
+							);
+						})}
 				</Grid>
 			)}
 		</>
 	);
 };
 
-export default HotelDetail;
+const mapStateToProps = (state) => ({
+	user: state.auth.user,
+});
+
+export default connect(mapStateToProps, {})(HotelDetail);
