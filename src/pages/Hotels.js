@@ -13,6 +13,7 @@ import { connect } from "react-redux";
 import Hotel from "../components/Hotel";
 
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Hotels = ({ user, loading }) => {
 	const [modalVisible, setModalVisible] = useState(false);
@@ -26,9 +27,19 @@ const Hotels = ({ user, loading }) => {
 		setNewHotelName("");
 	};
 
-	const handleSubmit = (e) => {
+	const handleSubmit = async (e) => {
+		try {
+			const res = await axios.post("http://localhost:5000/api/hotels", {
+			name: newHotelName
+		} )
+			setHotels([...hotels, res.data])
 		setModalVisible(!modalVisible);
 		setNewHotelName("");
+		} catch (error) {
+			console.log(error)
+		}
+		
+		
 	};
 
 	const openHotel = (id) => {
@@ -85,6 +96,7 @@ const Hotels = ({ user, loading }) => {
 								</Button>
 							</DialogActions>
 						</Dialog>
+						
 					</Grid>
 					{hotels.length > 0 &&
 						hotels.map((hotel) => {

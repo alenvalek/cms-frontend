@@ -1,52 +1,80 @@
-import { Grid, Typography } from "@mui/material";
+import { Button, Grid, Typography } from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 const ObjectDetails = ({ user }) => {
-	const { objektID } = useParams();
+  const { kampID, hotelID, objektID } = useParams();
 
-	const [object, setObject] = useState({});
+  const [object, setObject] = useState({});
+  const navigate = useNavigate();
 
-	const fetchObjectInfo = () => {
-		const objectInfo = user.userWorkspaces.objects.find(
-			(obj) => obj._id == objektID
-		);
-		setObject(objectInfo);
-	};
+  const handleBack = () => {
+    navigate(`/hoteli/${hotelID}/${kampID}`);
+  };
 
-	useEffect(() => {
-		if (user) {
-			fetchObjectInfo();
-		}
-	}, [user]);
+  const fetchObjectInfo = () => {
+    const objectInfo = user.userWorkspaces.objects.find(
+      (obj) => obj._id == objektID
+    );
+    setObject(objectInfo);
+  };
 
-	return (
-		<Grid
-			container
-			textAlign='center'
-			alignItems='center'
-			justifyContent='center'
-			spacing={2}>
-			{object && user && (
-				<Grid item>
-					<Typography variant='h5'>Naziv: {object.naziv}</Typography>
-					<Typography variant='h5'>
-						Površina: {object.povrsina}m<sup>2</sup>
-					</Typography>
-					<Typography variant='h5'>Tip: {object.tip}</Typography>
-					<Typography variant='h5'>Dimenzije: {object.dimenzije}</Typography>
-					<Typography variant='h5'>
-						Opis: {object && object.opis ? object.opis : "nema opisa"}
-					</Typography>
-				</Grid>
-			)}
-		</Grid>
-	);
+  useEffect(() => {
+    if (user) {
+      fetchObjectInfo();
+    }
+  }, [user]);
+
+  return (
+    <Grid
+      container
+      textAlign="center"
+      alignItems="center"
+      justifyContent="center"
+    >
+      <Grid item md={1}>
+        <Button
+          variant="outlined"
+          startIcon={<ArrowBackIcon />}
+          onClick={handleBack}
+        >
+          Nazad
+        </Button>
+      </Grid>
+      <Button variant="contained" color="error" startIcon={<DeleteIcon />}>
+        {" "}
+        Obriši objekt{" "}
+      </Button>
+      <Grid
+        container
+        textAlign="center"
+        alignItems="center"
+        justifyContent="center"
+        spacing={2}
+      >
+        {object && user && (
+          <Grid item>
+            <Typography variant="h5">Naziv: {object.naziv}</Typography>
+            <Typography variant="h5">
+              Površina: {object.povrsina}m<sup>2</sup>
+            </Typography>
+            <Typography variant="h5">Tip: {object.tip}</Typography>
+            <Typography variant="h5">Dimenzije: {object.dimenzije}</Typography>
+            <Typography variant="h5">
+              Opis: {object && object.opis ? object.opis : "nema opisa"}
+            </Typography>
+          </Grid>
+        )}
+      </Grid>
+    </Grid>
+  );
 };
 
 const mapStateToProps = (state) => ({
-	user: state.auth.user,
+  user: state.auth.user,
 });
 
 export default connect(mapStateToProps, {})(ObjectDetails);
