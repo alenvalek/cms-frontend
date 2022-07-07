@@ -9,16 +9,18 @@ import {
 	DialogActions,
 } from "@mui/material";
 import { useEffect, useState } from "react";
-import { connect } from "react-redux";
+import { connect, useDispatch } from "react-redux";
 import Hotel from "../components/Hotel";
-
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { loadUser } from "../actions/auth";
 
-const Hotels = ({ user, loading }) => {
+const Hotels = ({ user, loading, loadUser }) => {
 	const [modalVisible, setModalVisible] = useState(false);
 	const [newHotelName, setNewHotelName] = useState("");
 	const [hotels, setHotels] = useState([]);
+
+	const dispatch = useDispatch();
 
 	const navigate = useNavigate();
 
@@ -30,16 +32,14 @@ const Hotels = ({ user, loading }) => {
 	const handleSubmit = async (e) => {
 		try {
 			const res = await axios.post("http://localhost:5000/api/hotels", {
-			name: newHotelName
-		} )
-			setHotels([...hotels, res.data])
-		setModalVisible(!modalVisible);
-		setNewHotelName("");
+				name: newHotelName,
+			});
+			setHotels([...hotels, res.data]);
+			setModalVisible(!modalVisible);
+			setNewHotelName("");
 		} catch (error) {
-			console.log(error)
+			console.log(error);
 		}
-		
-		
 	};
 
 	const openHotel = (id) => {
@@ -51,6 +51,7 @@ const Hotels = ({ user, loading }) => {
 	};
 
 	useEffect(() => {
+		dispatch(loadUser);
 		if (user) {
 			fetchHotels();
 		}
@@ -96,7 +97,6 @@ const Hotels = ({ user, loading }) => {
 								</Button>
 							</DialogActions>
 						</Dialog>
-						
 					</Grid>
 					{hotels.length > 0 &&
 						hotels.map((hotel) => {
@@ -122,4 +122,4 @@ const mapStateToProps = (state) => ({
 	loading: state.auth.loading,
 });
 
-export default connect(mapStateToProps, {})(Hotels);
+export default connect(mapStateToProps, { loadUser })(Hotels);
