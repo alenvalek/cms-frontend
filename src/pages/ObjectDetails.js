@@ -5,6 +5,7 @@ import { connect, useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { loadUser } from "../actions/auth";
+import axios from "axios";
 
 const ObjectDetails = ({ user, loadUser }) => {
 	const { kampID, hotelID, objektID } = useParams();
@@ -16,6 +17,14 @@ const ObjectDetails = ({ user, loadUser }) => {
 
 	const handleBack = () => {
 		navigate(`/hoteli/${hotelID}/${kampID}`);
+	};
+	const handleDelete = async (e) => {
+		try {
+			await axios.delete(`http://localhost:5000/api/objects/${objektID}`);
+			navigate(`/hoteli/${hotelID}/${kampID}`);
+		} catch (error) {
+			console.log(error);
+		}
 	};
 
 	const fetchObjectInfo = () => {
@@ -47,6 +56,50 @@ const ObjectDetails = ({ user, loadUser }) => {
 				</Button>
 			</Grid>
 			<Button variant='contained' color='error' startIcon={<DeleteIcon />}>
+				{" "}
+				Obriši objekt{" "}
+			</Button>
+			<Grid
+				container
+				textAlign='center'
+				alignItems='center'
+				justifyContent='center'
+				spacing={2}>
+				{object && user && (
+					<Grid item>
+						<Typography variant='h5'>Naziv: {object.naziv}</Typography>
+						<Typography variant='h5'>
+							Površina: {object.povrsina}m<sup>2</sup>
+						</Typography>
+						<Typography variant='h5'>Tip: {object.tip}</Typography>
+						<Typography variant='h5'>Dimenzije: {object.dimenzije}</Typography>
+						<Typography variant='h5'>
+							Opis: {object && object.opis ? object.opis : "nema opisa"}
+						</Typography>
+					</Grid>
+				)}
+			</Grid>
+		</Grid>
+	);
+	return (
+		<Grid
+			container
+			textAlign='center'
+			alignItems='center'
+			justifyContent='center'>
+			<Grid item md={1}>
+				<Button
+					variant='outlined'
+					startIcon={<ArrowBackIcon />}
+					onClick={handleBack}>
+					Nazad
+				</Button>
+			</Grid>
+			<Button
+				variant='contained'
+				color='error'
+				onClick={handleDelete}
+				startIcon={<DeleteIcon />}>
 				{" "}
 				Obriši objekt{" "}
 			</Button>

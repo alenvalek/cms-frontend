@@ -28,6 +28,14 @@ const CampDetail = ({ user, loading, loadUser }) => {
 	const handleRoute = (objID) => {
 		navigate(`/hoteli/${hotelID}/${kampID}/${objID}`);
 	};
+	const handleDelete = async (e) => {
+		try {
+			await axios.delete(`http://localhost:5000/api/camps/${kampID}`);
+			navigate(`/hoteli/${hotelID}`);
+		} catch (error) {
+			console.log(error);
+		}
+	};
 
 	const handleBack = () => {
 		navigate(`/hoteli/${hotelID}`);
@@ -85,6 +93,7 @@ const CampDetail = ({ user, loading, loadUser }) => {
 								<Button
 									variant='contained'
 									color='error'
+									onClick={handleDelete}
 									startIcon={<DeleteIcon />}>
 									{" "}
 									Obriši kamp{" "}

@@ -46,9 +46,14 @@ const HotelDetail = ({ user, loading }) => {
 		}
 	};
 
-	const handleDelete = (e) => {
+	const handleDelete = async (e) => {
 		try {
-		} catch (error) {}
+			await axios.delete(`http://localhost:5000/api/hotels/${hotelID}`);
+
+			navigate(`/hoteli`);
+		} catch (error) {
+			console.log(error);
+		}
 	};
 
 	const handleBack = () => {
