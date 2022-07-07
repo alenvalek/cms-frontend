@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import axios from "axios";
 
 const ObjectDetails = ({ user }) => {
   const { kampID, hotelID, objektID } = useParams();
@@ -13,6 +14,15 @@ const ObjectDetails = ({ user }) => {
 
   const handleBack = () => {
     navigate(`/hoteli/${hotelID}/${kampID}`);
+  };
+
+  const handleDelete = async (e) => {
+    try {
+      await axios.delete(`http://localhost:5000/api/objects/${objektID}`);
+      navigate(`/hoteli/${hotelID}/${kampID}`);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const fetchObjectInfo = () => {
@@ -44,7 +54,12 @@ const ObjectDetails = ({ user }) => {
           Nazad
         </Button>
       </Grid>
-      <Button variant="contained" color="error" startIcon={<DeleteIcon />}>
+      <Button
+        variant="contained"
+        color="error"
+        onClick={handleDelete}
+        startIcon={<DeleteIcon />}
+      >
         {" "}
         Obriši objekt{" "}
       </Button>
