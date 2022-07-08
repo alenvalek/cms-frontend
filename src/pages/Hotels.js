@@ -14,11 +14,14 @@ import Hotel from "../components/Hotel";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { loadUser } from "../actions/auth";
+import { useTranslation } from "react-i18next";
 
 const Hotels = ({ user, loading, loadUser }) => {
 	const [modalVisible, setModalVisible] = useState(false);
 	const [newHotelName, setNewHotelName] = useState("");
 	const [hotels, setHotels] = useState([]);
+
+	const { t } = useTranslation();
 
 	const dispatch = useDispatch();
 
@@ -67,19 +70,19 @@ const Hotels = ({ user, loading, loadUser }) => {
 					justifyContent='center'
 					spacing={2}>
 					<Grid item sm={12} md={6}>
-						<Typography variant='h2'>Hotelski lanci</Typography>
+						<Typography variant='h2'>{t("hotelChains")}</Typography>
 					</Grid>
 					<Grid item xs={12} sm={12} md={6} marginLeft='auto'>
 						<Button variant='contained' color='primary' onClick={handleClose}>
-							Dodaj novi hotelski lanac
+							{t("addHotelBtn")}
 						</Button>
 						<Dialog open={modalVisible} onClose={handleClose}>
-							<DialogTitle>Dodavanje novog hotelskog lanca</DialogTitle>
+							<DialogTitle>{t("addHotelFormTitle")}</DialogTitle>
 							<DialogContent>
 								<TextField
 									autoFocus
 									margin='dense'
-									label='Ime novog hotelskog lanca'
+									label={t("addHotelFormLabel")}
 									type='text'
 									fullWidth
 									variant='standard'
@@ -93,7 +96,7 @@ const Hotels = ({ user, loading, loadUser }) => {
 									color='primary'
 									onClick={handleSubmit}
 									fullWidth>
-									Kreiraj
+									{t("createBtn")}
 								</Button>
 							</DialogActions>
 						</Dialog>

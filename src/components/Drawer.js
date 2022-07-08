@@ -1,7 +1,6 @@
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
-import Divider from "@mui/material/Divider";
 import Drawer from "@mui/material/Drawer";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
@@ -24,11 +23,27 @@ import { logout } from "../actions/auth";
 
 // routing
 import { NavLink } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import { Button, Menu, MenuItem, Divider } from "@mui/material";
+import PopupState, { bindTrigger, bindMenu } from "material-ui-popup-state";
+
+const lngs = {
+	en: { nativeName: "English" },
+	es: { nativeName: "Español" },
+	it: { nativeName: "Italiano" },
+	hr: { nativeName: "Hrvatski" },
+};
 
 const drawerWidth = 240;
 
 function ResponsiveDrawer({ window, children, user, loading }) {
 	const [mobileOpen, setMobileOpen] = useState(false);
+
+	const { t, i18n } = useTranslation();
+
+	const handleLngChg = (lng) => {
+		i18n.changeLanguage(lng);
+	};
 
 	const handleDrawerToggle = () => {
 		setMobileOpen(!mobileOpen);
@@ -48,7 +63,7 @@ function ResponsiveDrawer({ window, children, user, loading }) {
 					<ListItemIcon>
 						<LogoutIcon />
 					</ListItemIcon>
-					<ListItemText primary='Logout' />
+					<ListItemText primary={t("logout")} />
 				</ListItem>
 			</List>
 			<Divider />
@@ -62,7 +77,7 @@ function ResponsiveDrawer({ window, children, user, loading }) {
 						<ListItemIcon>
 							<DashboardIcon />
 						</ListItemIcon>
-						<ListItemText primary='Dashboard' />
+						<ListItemText primary={t("dashboard")} />
 					</ListItem>
 				</NavLink>
 				<NavLink
@@ -74,7 +89,7 @@ function ResponsiveDrawer({ window, children, user, loading }) {
 						<ListItemIcon>
 							<ApartmentIcon />
 						</ListItemIcon>
-						<ListItemText primary='Moji hotelski lanci' />
+						<ListItemText primary={t("myChains")} />
 					</ListItem>
 				</NavLink>
 			</List>
@@ -106,6 +121,31 @@ function ResponsiveDrawer({ window, children, user, loading }) {
 					<Typography variant='h6' noWrap component='div'>
 						CMS
 					</Typography>
+					<PopupState variant='popover'>
+						{(popupState) => (
+							<>
+								<Button
+									sx={{ marginLeft: "auto" }}
+									variant='text'
+									color='inherit'
+									{...bindTrigger(popupState)}>
+									{t("changeLanguage")}
+								</Button>
+								<Menu {...bindMenu(popupState)}>
+									{Object.keys(lngs).map((lng) => (
+										<MenuItem
+											disabled={i18n.resolvedLanguage === lng}
+											onClick={(e) => {
+												handleLngChg(lng);
+												popupState.close();
+											}}>
+											{lngs[lng].nativeName}
+										</MenuItem>
+									))}
+								</Menu>
+							</>
+						)}
+					</PopupState>
 				</Toolbar>
 			</AppBar>
 			<Box

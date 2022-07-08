@@ -1,4 +1,12 @@
-import { AppBar, Button, IconButton, Toolbar, Typography } from "@mui/material";
+import {
+	AppBar,
+	Button,
+	IconButton,
+	Menu,
+	MenuItem,
+	Toolbar,
+	Typography,
+} from "@mui/material";
 import { Box } from "@mui/system";
 import BackupTableIcon from "@mui/icons-material/BackupTable";
 
@@ -6,8 +14,24 @@ import BackupTableIcon from "@mui/icons-material/BackupTable";
 import { connect } from "react-redux";
 import { logout } from "../actions/auth";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+
+import PopupState, { bindTrigger, bindMenu } from "material-ui-popup-state";
+
+const lngs = {
+	en: { nativeName: "English" },
+	es: { nativeName: "Español" },
+	it: { nativeName: "Italiano" },
+	hr: { nativeName: "Hrvatski" },
+};
 
 const Navbar = ({ auth: { isAuth, loading }, logout }) => {
+	const { t, i18n } = useTranslation();
+
+	const handleLngChg = (lng) => {
+		i18n.changeLanguage(lng);
+	};
+
 	return (
 		<>
 			{!loading && (
@@ -31,13 +55,38 @@ const Navbar = ({ auth: { isAuth, loading }, logout }) => {
 							</Typography>
 							{isAuth ? (
 								<Button color='inherit' onClick={logout}>
-									Odjava
+									{t("logout")}
 								</Button>
 							) : (
 								<Link color='inherit' to='/login'>
-									Prijava
+									{t("login")}
 								</Link>
 							)}
+							<PopupState variant='popover'>
+								{(popupState) => (
+									<>
+										<Button
+											sx={{ marginLeft: "1rem" }}
+											variant='text'
+											color='inherit'
+											{...bindTrigger(popupState)}>
+											{t("changeLanguage")}
+										</Button>
+										<Menu {...bindMenu(popupState)}>
+											{Object.keys(lngs).map((lng) => (
+												<MenuItem
+													disabled={i18n.resolvedLanguage === lng}
+													onClick={(e) => {
+														handleLngChg(lng);
+														popupState.close();
+													}}>
+													{lngs[lng].nativeName}
+												</MenuItem>
+											))}
+										</Menu>
+									</>
+								)}
+							</PopupState>
 						</Toolbar>
 					</AppBar>
 				</Box>

@@ -17,6 +17,7 @@ import { useParams } from "react-router-dom";
 import Camp from "../components/Camp";
 import { connect } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const HotelDetail = ({ user, loading }) => {
 	const [modalVisible, setModalVisible] = useState(false);
@@ -26,7 +27,7 @@ const HotelDetail = ({ user, loading }) => {
 	const [newCampName, setCampName] = useState("");
 
 	const navigate = useNavigate();
-
+	const { t } = useTranslation();
 	const handleClose = (e) => {
 		setModalVisible(!modalVisible);
 		setCampName("");
@@ -100,7 +101,7 @@ const HotelDetail = ({ user, loading }) => {
 							variant='outlined'
 							startIcon={<ArrowBackIcon />}
 							onClick={handleBack}>
-							Nazad
+							{t("backBtn")}
 						</Button>
 					</Grid>
 					<Grid item sm={12} md={5}>
@@ -113,15 +114,15 @@ const HotelDetail = ({ user, loading }) => {
 									variant='contained'
 									color='primary'
 									onClick={handleClose}>
-									Dodaj novi kamp
+									{t("addCampBtn")}
 								</Button>
 								<Dialog open={modalVisible} onClose={handleClose}>
-									<DialogTitle>Dodavanje novog kampa</DialogTitle>
+									<DialogTitle>{t("addCampFormTitle")}</DialogTitle>
 									<DialogContent>
 										<TextField
 											autoFocus
 											margin='dense'
-											label='Ime novog kampa'
+											label={t("addCampFormName")}
 											type='text'
 											fullWidth
 											variant='standard'
@@ -135,7 +136,7 @@ const HotelDetail = ({ user, loading }) => {
 											color='primary'
 											onClick={handleSubmit}
 											fullWidth>
-											Kreiraj
+											{t("createBtn")}
 										</Button>
 									</DialogActions>
 								</Dialog>
@@ -147,7 +148,7 @@ const HotelDetail = ({ user, loading }) => {
 									onClick={handleDelete}
 									startIcon={<DeleteIcon />}>
 									{" "}
-									Obriši Hotelski lanac{" "}
+									{t("deleteHotelBtn")}{" "}
 								</Button>
 							</Grid>
 						</Grid>

@@ -14,6 +14,7 @@ import { connect } from "react-redux";
 import { loginUser } from "../actions/auth";
 
 import { Navigate } from "react-router-dom";
+import { useTranslation, Trans } from "react-i18next";
 
 const useStyles = makeStyles({
 	paper: {
@@ -22,7 +23,8 @@ const useStyles = makeStyles({
 		margin: "1rem auto",
 	},
 	formElement: {
-		marginBottom: "1rem",
+		marginBottom: "1rem !important",
+		marginTop: "1rem !important",
 	},
 	grid: {
 		height: "90vh",
@@ -42,6 +44,8 @@ const Login = ({ isAuth, loginUser, user, alert }) => {
 		console.log("User: ", user);
 		console.log(alert);
 	};
+
+	const { t } = useTranslation();
 
 	if (isAuth) {
 		return <Navigate to='/' />;
@@ -63,7 +67,7 @@ const Login = ({ isAuth, loginUser, user, alert }) => {
 						)}
 					</Grid>
 					<Grid item align='center' className={classes.formElement}>
-						<Typography variant='h3'>Prijava</Typography>
+						<Typography variant='h3'>{t("login")}</Typography>
 					</Grid>
 					<Grid item align='center'>
 						<TextField
@@ -78,7 +82,7 @@ const Login = ({ isAuth, loginUser, user, alert }) => {
 						/>
 						<TextField
 							name='password'
-							label='Password'
+							label={t("passwordLabel")}
 							fullWidth
 							required
 							className={classes.formElement}
@@ -89,7 +93,7 @@ const Login = ({ isAuth, loginUser, user, alert }) => {
 					</Grid>
 					<Grid item align='center'>
 						<Button variant='contained' color='primary' onClick={loginHandler}>
-							Prijavi se
+							{t("loginBtn")}
 						</Button>
 					</Grid>
 				</Paper>

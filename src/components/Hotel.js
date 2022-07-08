@@ -15,7 +15,6 @@ const useStyles = makeStyles({
 
 const Hotel = ({ name }) => {
 	const classes = useStyles();
-
 	return (
 		<Grid
 			container
