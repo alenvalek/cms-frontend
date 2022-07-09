@@ -13,8 +13,8 @@ import { useState } from "react";
 import { connect } from "react-redux";
 import { loginUser } from "../actions/auth";
 
-import { Navigate } from "react-router-dom";
-import { useTranslation, Trans } from "react-i18next";
+import { Navigate, useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const useStyles = makeStyles({
 	paper: {
@@ -33,22 +33,28 @@ const useStyles = makeStyles({
 
 const Login = ({ isAuth, loginUser, user, alert }) => {
 	const classes = useStyles();
+	const navigate = useNavigate();
 
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const error = alert;
 
 	const loginHandler = async (e) => {
-		loginUser(email, password);
-		console.log(isAuth);
-		console.log("User: ", user);
-		console.log(alert);
+		try {
+			await loginUser(email, password);
+			console.log(isAuth);
+			console.log("User: ", user);
+			console.log(alert);
+			return navigate("/");
+		} catch (error) {
+			return console.log(error);
+		}
 	};
 
 	const { t } = useTranslation();
 
 	if (isAuth) {
-		return <Navigate to='/' />;
+		return <Navigate to='/' replace />;
 	}
 
 	return (

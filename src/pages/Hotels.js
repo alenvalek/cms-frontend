@@ -49,16 +49,15 @@ const Hotels = ({ user, loading, loadUser }) => {
 		navigate(`/hoteli/${id}`);
 	};
 
-	const fetchHotels = () => {
-		setHotels(user.userWorkspaces.hotels);
-	};
-
 	useEffect(() => {
+		const fetchHotels = () => {
+			setHotels(user.userWorkspaces.hotels);
+		};
 		dispatch(loadUser);
 		if (user) {
 			fetchHotels();
 		}
-	}, [user]);
+	}, [user, dispatch, loadUser]);
 
 	return (
 		<>

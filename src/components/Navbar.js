@@ -73,8 +73,9 @@ const Navbar = ({ auth: { isAuth, loading }, logout }) => {
 											{t("changeLanguage")}
 										</Button>
 										<Menu {...bindMenu(popupState)}>
-											{Object.keys(lngs).map((lng) => (
+											{Object.keys(lngs).map((lng, index) => (
 												<MenuItem
+													key={index}
 													disabled={i18n.resolvedLanguage === lng}
 													onClick={(e) => {
 														handleLngChg(lng);

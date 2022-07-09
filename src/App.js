@@ -19,14 +19,21 @@ function App({ isAuth, loading, user }) {
 
 	useEffect(() => {
 		dispatch(loadUser());
-	}, []);
+	}, [dispatch]);
 
 	const notLoggedView = (
 		<>
 			<Navbar />
 			<Routes>
-				<Route exact path='/' element={<PrivateRoute redirectTo='/login' />}>
-					<Route path='/' element={<Home />} />
+				<Route path='/' element={<PrivateRoute />}>
+					<Route exact path='/' element={<Home />} />
+					<Route path='hoteli' element={<Hotels />} />
+					<Route path='hoteli/:hotelID' element={<HotelDetail />} />
+					<Route path='hoteli/:hotelID/:kampID' element={<CampDetail />} />
+					<Route
+						path='hoteli/:hotelID/:kampID/:objektID'
+						element={<ObjectDetails />}
+					/>
 				</Route>
 				<Route path='/login' element={<Login />} />
 			</Routes>
@@ -38,17 +45,16 @@ function App({ isAuth, loading, user }) {
 			<Navbar />
 			<Drawer>
 				<Routes>
-					<Route exact path='/' element={<PrivateRoute redirectTo='/login' />}>
+					<Route path='/' element={<PrivateRoute />}>
 						<Route exact path='/' element={<Home />} />
-						<Route exact path='/hoteli' element={<Hotels />} />
-						<Route path='/hoteli/:hotelID' element={<HotelDetail />} />
-						<Route path='/hoteli/:hotelID/:kampID' element={<CampDetail />} />
+						<Route path='hoteli' element={<Hotels />} />
+						<Route path='hoteli/:hotelID' element={<HotelDetail />} />
+						<Route path='hoteli/:hotelID/:kampID' element={<CampDetail />} />
 						<Route
-							path='/hoteli/:hotelID/:kampID/:objektID'
+							path='hoteli/:hotelID/:kampID/:objektID'
 							element={<ObjectDetails />}
 						/>
 					</Route>
-					<Route path='/login' element={<Login />} />
 				</Routes>
 			</Drawer>
 		</>

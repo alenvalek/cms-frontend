@@ -1,8 +1,11 @@
 import { Navigate, Outlet } from "react-router-dom";
 import { connect } from "react-redux";
 
-const PrivateRoute = ({ redirectTo, auth: { isAuth, loading } }) => {
-	return !isAuth && !loading ? <Navigate to={redirectTo} /> : <Outlet />;
+const PrivateRoute = ({ children, auth: { isAuth, loading } }) => {
+	if (!isAuth && !loading) {
+		return <Navigate to='/login' replace />;
+	}
+	return <Outlet />;
 };
 
 const mapStateToProps = (state) => ({

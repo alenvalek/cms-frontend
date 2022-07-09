@@ -29,19 +29,18 @@ const ObjectDetails = ({ user, loadUser }) => {
 		}
 	};
 
-	const fetchObjectInfo = () => {
-		const objectInfo = user.userWorkspaces.objects.find(
-			(obj) => obj._id == objektID
-		);
-		setObject(objectInfo);
-	};
-
 	useEffect(() => {
+		const fetchObjectInfo = () => {
+			const objectInfo = user.userWorkspaces.objects.find(
+				(obj) => obj._id === objektID
+			);
+			setObject(objectInfo);
+		};
 		dispatch(loadUser);
 		if (user) {
 			fetchObjectInfo();
 		}
-	}, [user]);
+	}, [user, objektID, dispatch, loadUser]);
 
 	return (
 		<Grid

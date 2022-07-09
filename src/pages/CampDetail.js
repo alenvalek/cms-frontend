@@ -38,7 +38,7 @@ const CampDetail = ({ user, loading, loadUser }) => {
 			setCampDetails(res.data);
 		};
 		getCampDetails();
-	}, []);
+	}, [kampID]);
 
 	const handleRoute = (objID) => {
 		navigate(`/hoteli/${hotelID}/${kampID}/${objID}`);
@@ -80,23 +80,19 @@ const CampDetail = ({ user, loading, loadUser }) => {
 		}
 	};
 
-	const fetchObjects = () => {
-		let campObjects = user.userWorkspaces.objects.filter(
-			(object) => object.camp == kampID
-		);
-		setObjects(campObjects);
-	};
-
 	useEffect(() => {
+		const fetchObjects = () => {
+			let campObjects = user.userWorkspaces.objects.filter(
+				(object) => object.camp === kampID
+			);
+			setObjects(campObjects);
+		};
 		dispatch(loadUser);
 		if (user) {
 			fetchObjects();
 		}
-	}, [user]);
+	}, [user, loadUser, dispatch, kampID]);
 
-	const navigateToCreateForm = () => {
-		console.log("brr");
-	};
 	return (
 		<>
 			{!loading && campDetails && (
@@ -188,7 +184,7 @@ const CampDetail = ({ user, loading, loadUser }) => {
 											color='primary'
 											onClick={handleSubmit}
 											fullWidth>
-											{t("create")}
+											{t("createBtn")}
 										</Button>
 									</DialogActions>
 								</Dialog>
@@ -205,7 +201,9 @@ const CampDetail = ({ user, loading, loadUser }) => {
 							</Grid>
 						</Grid>
 					</Grid>
-					<Grid md={12}>{kampID}</Grid>
+					<Grid item md={12}>
+						{kampID}
+					</Grid>
 					{user &&
 						!loading &&
 						objects &&

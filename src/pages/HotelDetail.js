@@ -1,6 +1,5 @@
 import {
 	Button,
-	ButtonGroup,
 	Grid,
 	Typography,
 	Dialog,
@@ -71,20 +70,19 @@ const HotelDetail = ({ user, loading }) => {
 			setHotelDetails(res.data);
 		};
 		getHotelDetails();
-	}, []);
-
-	const fetchCamps = () => {
-		let hotelCamps = user.userWorkspaces.camps.filter(
-			(camp) => camp.hotel == hotelID
-		);
-		setCamps(hotelCamps);
-	};
+	}, [hotelID]);
 
 	useEffect(() => {
+		const fetchCamps = () => {
+			let hotelCamps = user.userWorkspaces.camps.filter(
+				(camp) => camp.hotel === hotelID
+			);
+			setCamps(hotelCamps);
+		};
 		if (user) {
 			fetchCamps();
 		}
-	}, [user]);
+	}, [user, hotelID]);
 
 	return (
 		<>
