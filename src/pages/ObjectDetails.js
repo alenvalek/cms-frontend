@@ -17,6 +17,7 @@ import TheaterComedyIcon from "@mui/icons-material/TheaterComedy";
 import { loadUser } from "../actions/auth";
 import axios from "axios";
 import { useTranslation } from "react-i18next";
+import ObjectCard from "../components/ObjectCard";
 
 const ObjectDetails = ({ user, loadUser }) => {
 	const { kampID, hotelID, objektID } = useParams();
@@ -30,7 +31,8 @@ const ObjectDetails = ({ user, loadUser }) => {
 
 	const handleClose = (e) => {
 		setModalVisible(!modalVisible);
-		setContent("");
+
+		setContent(object.content ? object.content.join() : "");
 	};
 
 	const handleBack = () => {
@@ -45,7 +47,6 @@ const ObjectDetails = ({ user, loadUser }) => {
 					content,
 				}
 			);
-			console.log(res.data);
 			handleClose();
 		} catch (error) {}
 	};
@@ -65,7 +66,6 @@ const ObjectDetails = ({ user, loadUser }) => {
 				(obj) => obj._id === objektID
 			);
 			setObject(objectInfo);
-			setContent(objectInfo && objectInfo.content ? objectInfo.content : "");
 		};
 		dispatch(loadUser);
 		if (user) {
@@ -135,43 +135,7 @@ const ObjectDetails = ({ user, loadUser }) => {
 				spacing={2}
 				sx={{ marginTop: "1rem" }}>
 				{object && user && (
-					<Grid item>
-						<Typography variant='h5'>
-							{t("name")}: {object.naziv}
-						</Typography>
-						<Typography variant='h5'>
-							{t("area")}: {object.povrsina}m<sup>2</sup>
-						</Typography>
-						<Typography variant='h5'>
-							{t("type")}: {object.tip}
-						</Typography>
-						<Typography variant='h5'>
-							{t("dim")}: {object.dimenzije}
-						</Typography>
-						<Typography variant='h5'>
-							{t("desc")}: {object && object.opis ? object.opis : "nema opisa"}
-						</Typography>
-						{object && object.contact && (
-							<Typography variant='h5'>
-								{t("contact")}: {object.contact}
-							</Typography>
-						)}
-						{object && object.workHours && (
-							<Typography variant='h5'>
-								{t("workHours")}: {object.workHours}
-							</Typography>
-						)}
-						{object && object.email && (
-							<Typography variant='h5'>
-								{t("email")}: {object.email}
-							</Typography>
-						)}
-						{object && object.address && (
-							<Typography variant='h5'>
-								{t("address")}: {object.address}
-							</Typography>
-						)}
-					</Grid>
+					<ObjectCard object={object} setContent={setContent} />
 				)}
 			</Grid>
 		</Grid>
