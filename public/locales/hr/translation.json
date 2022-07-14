@@ -30,5 +30,18 @@
 	"type": "Tip",
 	"dim": "Dimenzije",
 	"desc": "Opis",
-	"changeLanguage": "Promjeni jezik"
+	"changeLanguage": "Promjeni jezik",
+	"addObjContent": "Dodaj sadržaj",
+	"addObjContentTitle": "Dodaj sadržaj objekta",
+	"addObjContentForm": "Sadržaj objekta ( odvoji sadržaje zarezom ',' )",
+	"addContentBtn": "Dodaj sadržaj",
+	"promptOptional": "Prikaži dodatna specijalna polja",
+	"addContactPhone": "Kontakt",
+	"addWorkingHours": "Radno vrijeme",
+	"addEmailAddress": "E-mail",
+	"addAddress": "Adresa",
+	"contact": "Kontakt",
+	"workHours": "Radno vrijeme",
+	"email": "E-mail",
+	"address": "Adresa"
 }

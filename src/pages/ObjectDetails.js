@@ -1,9 +1,19 @@
-import { Button, Grid, Typography } from "@mui/material";
+import {
+	Button,
+	Dialog,
+	DialogActions,
+	DialogContent,
+	DialogTitle,
+	Grid,
+	TextField,
+	Typography,
+} from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import React, { useEffect, useState } from "react";
 import { connect, useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import TheaterComedyIcon from "@mui/icons-material/TheaterComedy";
 import { loadUser } from "../actions/auth";
 import axios from "axios";
 import { useTranslation } from "react-i18next";
@@ -14,12 +24,32 @@ const ObjectDetails = ({ user, loadUser }) => {
 	const [object, setObject] = useState({});
 	const navigate = useNavigate();
 	const { t } = useTranslation();
-
+	const [content, setContent] = useState({});
 	const dispatch = useDispatch();
+	const [modalVisible, setModalVisible] = useState(false);
+
+	const handleClose = (e) => {
+		setModalVisible(!modalVisible);
+		setContent("");
+	};
 
 	const handleBack = () => {
 		navigate(`/hoteli/${hotelID}/${kampID}`);
 	};
+
+	const handleSubmit = async () => {
+		try {
+			const res = await axios.patch(
+				`http://localhost:5000/api/objects/${objektID}`,
+				{
+					content,
+				}
+			);
+			console.log(res.data);
+			handleClose();
+		} catch (error) {}
+	};
+
 	const handleDelete = async (e) => {
 		try {
 			await axios.delete(`http://localhost:5000/api/objects/${objektID}`);
@@ -35,6 +65,7 @@ const ObjectDetails = ({ user, loadUser }) => {
 				(obj) => obj._id === objektID
 			);
 			setObject(objectInfo);
+			setContent(objectInfo && objectInfo.content ? objectInfo.content : "");
 		};
 		dispatch(loadUser);
 		if (user) {
@@ -64,12 +95,45 @@ const ObjectDetails = ({ user, loadUser }) => {
 				{" "}
 				{t("deleteObjBtn")}{" "}
 			</Button>
+			<Button
+				sx={{ marginLeft: "1rem" }}
+				variant='contained'
+				color='primary'
+				onClick={handleClose}
+				startIcon={<TheaterComedyIcon />}>
+				{" "}
+				{t("addObjContent")}{" "}
+			</Button>
+			<Dialog fullWidth open={modalVisible} onClose={handleClose}>
+				<DialogTitle>{t("addObjContentTitle")}</DialogTitle>
+				<DialogContent>
+					<TextField
+						autoFocus
+						margin='dense'
+						label={t("addObjContentForm")}
+						type='text'
+						fullWidth
+						variant='standard'
+						value={content}
+						onChange={(e) => setContent(e.target.value)}
+					/>
+				</DialogContent>
+				<DialogActions>
+					<Button
+						variant='contained'
+						color='primary'
+						onClick={handleSubmit}
+						fullWidth>
+						{t("addContentBtn")}
+					</Button>
+				</DialogActions>
+			</Dialog>
 			<Grid
 				container
-				textAlign='center'
-				alignItems='center'
+				textAlign='left'
 				justifyContent='center'
-				spacing={2}>
+				spacing={2}
+				sx={{ marginTop: "1rem" }}>
 				{object && user && (
 					<Grid item>
 						<Typography variant='h5'>
@@ -87,6 +151,26 @@ const ObjectDetails = ({ user, loadUser }) => {
 						<Typography variant='h5'>
 							{t("desc")}: {object && object.opis ? object.opis : "nema opisa"}
 						</Typography>
+						{object && object.contact && (
+							<Typography variant='h5'>
+								{t("contact")}: {object.contact}
+							</Typography>
+						)}
+						{object && object.workHours && (
+							<Typography variant='h5'>
+								{t("workHours")}: {object.workHours}
+							</Typography>
+						)}
+						{object && object.email && (
+							<Typography variant='h5'>
+								{t("email")}: {object.email}
+							</Typography>
+						)}
+						{object && object.address && (
+							<Typography variant='h5'>
+								{t("address")}: {object.address}
+							</Typography>
+						)}
 					</Grid>
 				)}
 			</Grid>

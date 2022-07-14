@@ -55,6 +55,7 @@ function App({ isAuth, loading, user }) {
 							element={<ObjectDetails />}
 						/>
 					</Route>
+					<Route path='/login' element={<Login />} />
 				</Routes>
 			</Drawer>
 		</>

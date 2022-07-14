@@ -1,9 +1,11 @@
 import {
 	Button,
+	Checkbox,
 	Dialog,
 	DialogActions,
 	DialogContent,
 	DialogTitle,
+	FormControlLabel,
 	Grid,
 	TextField,
 	Typography,
@@ -27,6 +29,11 @@ const CampDetail = ({ user, loading, loadUser }) => {
 	const [newObjectTip, setNewObjectTip] = useState("");
 	const [newObjectDimenzije, setNewObjectDimenzije] = useState("");
 	const [newObjectOpis, setNewObjectOpis] = useState("");
+	const [phone, setPhone] = useState("");
+	const [working, setWorking] = useState("");
+	const [email, setEmail] = useState("");
+	const [address, setAddress] = useState("");
+	const [optional, setOptional] = useState(false);
 	const dispatch = useDispatch();
 	const [objects, setObjects] = useState([]);
 	const navigate = useNavigate();
@@ -63,7 +70,7 @@ const CampDetail = ({ user, loading, loadUser }) => {
 
 	const handleSubmit = async (e) => {
 		try {
-			const res = await axios.post("http://localhost:5000/api/objects", {
+			const newObj = {
 				naziv: newObjectNaziv,
 				povrsina: newObjectPovrsina,
 				tip: newObjectTip,
@@ -71,7 +78,15 @@ const CampDetail = ({ user, loading, loadUser }) => {
 				opis: newObjectOpis,
 				hotel: hotelID,
 				camp: kampID,
-			});
+			};
+
+			if (optional) {
+				if (phone) newObj.contact = phone;
+				if (working) newObj.workHours = working;
+				if (email) newObj.email = email;
+				if (address) newObj.address = address;
+			}
+			const res = await axios.post("http://localhost:5000/api/objects", newObj);
 			setObjects([...objects, res.data]);
 			setModalVisible(!modalVisible);
 			setNewObjectNaziv("");
@@ -136,7 +151,6 @@ const CampDetail = ({ user, loading, loadUser }) => {
 											onChange={(e) => setNewObjectNaziv(e.target.value)}
 										/>
 										<TextField
-											autoFocus
 											margin='dense'
 											label={t("addObjFormArea")}
 											type='text'
@@ -146,7 +160,6 @@ const CampDetail = ({ user, loading, loadUser }) => {
 											onChange={(e) => setNewObjectPovrsina(e.target.value)}
 										/>
 										<TextField
-											autoFocus
 											margin='dense'
 											label={t("addObjFormType")}
 											type='text'
@@ -156,7 +169,6 @@ const CampDetail = ({ user, loading, loadUser }) => {
 											onChange={(e) => setNewObjectTip(e.target.value)}
 										/>
 										<TextField
-											autoFocus
 											margin='dense'
 											label={t("addObjFormDim")}
 											type='text'
@@ -177,6 +189,54 @@ const CampDetail = ({ user, loading, loadUser }) => {
 											value={newObjectOpis}
 											onChange={(e) => setNewObjectOpis(e.target.value)}
 										/>
+										<FormControlLabel
+											label={t("promptOptional")}
+											control={
+												<Checkbox
+													checked={optional}
+													onChange={(e) => setOptional(!optional)}
+												/>
+											}></FormControlLabel>
+										{optional && (
+											<>
+												<TextField
+													margin='dense'
+													label={t("addContactPhone")}
+													type='text'
+													fullWidth
+													variant='standard'
+													value={phone}
+													onChange={(e) => setPhone(e.target.value)}
+												/>
+												<TextField
+													margin='dense'
+													label={t("addWorkingHours")}
+													type='text'
+													fullWidth
+													variant='standard'
+													value={working}
+													onChange={(e) => setWorking(e.target.value)}
+												/>
+												<TextField
+													margin='dense'
+													label={t("addEmailAddress")}
+													type='text'
+													fullWidth
+													variant='standard'
+													value={email}
+													onChange={(e) => setEmail(e.target.value)}
+												/>
+												<TextField
+													margin='dense'
+													label={t("addAddress")}
+													type='text'
+													fullWidth
+													variant='standard'
+													value={address}
+													onChange={(e) => setAddress(e.target.value)}
+												/>
+											</>
+										)}
 									</DialogContent>
 									<DialogActions>
 										<Button

@@ -30,5 +30,18 @@
 	"type": "Type",
 	"dim": "Dimensions",
 	"desc": "Description",
-	"changeLanguage": "Change language"
+	"changeLanguage": "Change language",
+	"addObjContent": "Add object content",
+	"addObjContentTitle": "Add object content",
+	"addObjContentForm": "Object content ( separate content by comma ',' )",
+	"addContentBtn": "Add content",
+	"promptOptional": "Show more optional fields",
+	"addContactPhone": "Contact",
+	"addWorkingHours": "Working hours",
+	"addEmailAddress": "E-mail",
+	"addAddress": "Address",
+	"contact": "Contact",
+	"workHours": "Working hours",
+	"email": "E-mail",
+	"address": "Address"
 }
