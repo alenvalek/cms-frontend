@@ -301,7 +301,7 @@ const CampDetail = ({ user, loading, loadUser }) => {
                       type="text"
                       fullWidth
                       variant="standard"
-                      value={editCampName}
+                      value={campDetails.name}
                       onChange={(e) => setEditCampName(e.target.value)}
                     />
                   </DialogContent>

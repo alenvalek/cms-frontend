@@ -7,6 +7,8 @@ import {
   Grid,
   TextField,
   Typography,
+  Checkbox,
+  FormControlLabel,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
@@ -30,8 +32,19 @@ const ObjectDetails = ({ user, loadUser }) => {
   const dispatch = useDispatch();
   const [modalVisible, setModalVisible] = useState(false);
 
-  const [editObjectName, setEditObjectName] = useState("");
   const [editModalVisible, setEditModalVisible] = useState(false);
+
+  const [newObjectNaziv, setNewObjectNaziv] = useState("");
+  const [newObjectPovrsina, setNewObjectPovrsina] = useState("");
+  const [newObjectTip, setNewObjectTip] = useState("");
+  const [newObjectDimenzije, setNewObjectDimenzije] = useState("");
+  const [newObjectOpis, setNewObjectOpis] = useState("");
+  const [phone, setPhone] = useState("");
+  const [working, setWorking] = useState("");
+  const [email, setEmail] = useState("");
+  const [address, setAddress] = useState("");
+  const [optional, setOptional] = useState(false);
+  const [objects, setObjects] = useState([]);
 
   const handleClose = (e) => {
     setModalVisible(!modalVisible);
@@ -66,22 +79,33 @@ const ObjectDetails = ({ user, loadUser }) => {
 
   const handleEditClose = (e) => {
     setEditModalVisible(!editModalVisible);
-    setEditObjectName("");
   };
 
   const handleEdit = async (e) => {
     try {
+      const newObj = {
+        naziv: newObjectNaziv,
+        povrsina: newObjectPovrsina,
+        tip: newObjectTip,
+        dimenzije: newObjectDimenzije,
+        opis: newObjectOpis,
+        hotel: hotelID,
+        camp: kampID,
+      };
+
+      if (optional) {
+        if (phone) newObj.contact = phone;
+        if (working) newObj.workHours = working;
+        if (email) newObj.email = email;
+        if (address) newObj.address = address;
+      }
       const res = await axios.patch(
         `http://localhost:5000/api/objects/${objektID}`,
-        {
-          name: editObjectName,
-          id: kampID,
-        }
+        newObj
       );
-      setObject([...object, res.data]);
-      this.objectInfo.name = editObjectName;
+      setObjects([...objects, res.data]);
+      object.name = newObjectNaziv;
       setEditModalVisible(!editModalVisible);
-      setEditObjectName("");
     } catch (error) {
       console.log(error);
     }
@@ -128,18 +152,106 @@ const ObjectDetails = ({ user, loadUser }) => {
           {t("editObjectBtn")}{" "}
         </Button>
         <Dialog open={editModalVisible} onClose={handleEditClose}>
-          <DialogTitle>{t("editObjectFormTitle")}</DialogTitle>
+          <DialogTitle>{t("addObjFormTitle")}</DialogTitle>
           <DialogContent>
             <TextField
               autoFocus
               margin="dense"
-              label={t("editObjectFormName")}
+              label={t("addObjFormName")}
               type="text"
               fullWidth
               variant="standard"
-              value={editObjectName}
-              onChange={(e) => setEditObjectName(e.target.value)}
+              value={object.naziv}
+              onChange={(e) => setNewObjectNaziv(e.target.value)}
             />
+            <TextField
+              margin="dense"
+              label={t("addObjFormArea")}
+              type="text"
+              fullWidth
+              variant="standard"
+              value={object.povrsina}
+              onChange={(e) => setNewObjectPovrsina(e.target.value)}
+            />
+            <TextField
+              margin="dense"
+              label={t("addObjFormType")}
+              type="text"
+              fullWidth
+              variant="standard"
+              value={object.tip}
+              onChange={(e) => setNewObjectTip(e.target.value)}
+            />
+            <TextField
+              margin="dense"
+              label={t("addObjFormDim")}
+              type="text"
+              fullWidth
+              variant="standard"
+              value={object.dimenzije}
+              onChange={(e) => setNewObjectDimenzije(e.target.value)}
+            />
+            <TextField
+              multiline
+              minRows={3}
+              autoFocus
+              margin="dense"
+              label={t("addObjFormDesc")}
+              type="text"
+              fullWidth
+              variant="standard"
+              value={object.opis}
+              onChange={(e) => setNewObjectOpis(e.target.value)}
+            />
+            <FormControlLabel
+              label={t("promptOptional")}
+              control={
+                <Checkbox
+                  checked={optional}
+                  onChange={(e) => setOptional(!optional)}
+                />
+              }
+            ></FormControlLabel>
+            {optional && (
+              <>
+                <TextField
+                  margin="dense"
+                  label={t("addContactPhone")}
+                  type="text"
+                  fullWidth
+                  variant="standard"
+                  value={object.contact}
+                  onChange={(e) => setPhone(e.target.value)}
+                />
+                <TextField
+                  margin="dense"
+                  label={t("addWorkingHours")}
+                  type="text"
+                  fullWidth
+                  variant="standard"
+                  value={object.workHours}
+                  onChange={(e) => setWorking(e.target.value)}
+                />
+                <TextField
+                  margin="dense"
+                  label={t("addEmailAddress")}
+                  type="text"
+                  fullWidth
+                  variant="standard"
+                  value={object.email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+                <TextField
+                  margin="dense"
+                  label={t("addAddress")}
+                  type="text"
+                  fullWidth
+                  variant="standard"
+                  value={object.address}
+                  onChange={(e) => setAddress(e.target.value)}
+                />
+              </>
+            )}
           </DialogContent>
           <DialogActions>
             <Button

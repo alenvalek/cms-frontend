@@ -190,7 +190,7 @@ const HotelDetail = ({ user, loading }) => {
                       type="text"
                       fullWidth
                       variant="standard"
-                      value={editHotelName}
+                      value={hotelDetails.name}
                       onChange={(e) => setEditHotelName(e.target.value)}
                     />
                   </DialogContent>
