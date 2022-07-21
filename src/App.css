@@ -11,6 +11,10 @@ a {
 	color: inherit;
 }
 
+.my-leaflet-map-container img {
+	max-height: none !important;
+}
+
 .mapFrame {
 	border: 2px solid black;
 	width: 50em;

@@ -72,9 +72,11 @@ const Hotels = ({ user, loading, loadUser }) => {
 						<Typography variant='h2'>{t("hotelChains")}</Typography>
 					</Grid>
 					<Grid item xs={12} sm={12} md={6} marginLeft='auto'>
-						<Button variant='contained' color='primary' onClick={handleClose}>
-							{t("addHotelBtn")}
-						</Button>
+						{user && user.user && user.user.isSuperAdmin && (
+							<Button variant='contained' color='primary' onClick={handleClose}>
+								{t("addHotelBtn")}
+							</Button>
+						)}
 						<Dialog open={modalVisible} onClose={handleClose}>
 							<DialogTitle>{t("addHotelFormTitle")}</DialogTitle>
 							<DialogContent>

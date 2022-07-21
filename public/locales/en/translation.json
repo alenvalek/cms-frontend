@@ -54,5 +54,10 @@
 	"workHours": "Working hours",
 	"email": "E-mail",
 	"address": "Address",
-	"content": "Content"
+	"content": "Content",
+	"unknown": "unknown",
+	"noDesc": "No description",
+	"password": "Password",
+	"username": "Username",
+	"addUserTitle": "Add new user"
 }
