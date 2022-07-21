@@ -414,16 +414,21 @@ const CampDetail = ({ user, loading, loadUser }) => {
 							color='primary'
 						/>
 					</Grid>
-					<Grid item xs={12} md={12}>
-						<input
-							type='file'
-							accept='.geojson, .json'
-							onChange={handleChange}
-						/>
-						<Button variant='contained' color='primary' onClick={handleImport}>
-							Import GEOJson
-						</Button>
-					</Grid>
+					{user && user.user && user.user.isSuperAdmin && (
+						<Grid item xs={12} md={12}>
+							<input
+								type='file'
+								accept='.geojson, .json'
+								onChange={handleChange}
+							/>
+							<Button
+								variant='contained'
+								color='primary'
+								onClick={handleImport}>
+								Import GEOJson
+							</Button>
+						</Grid>
+					)}
 				</Grid>
 			)}
 		</>
